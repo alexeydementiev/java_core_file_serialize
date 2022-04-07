@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -27,9 +28,9 @@ public class Main {
 
 	public static void saveGame(String filename, GameProgress progress) {
 
-		try (FileOutputStream fos = new FileOutputStream(filename)) {
-			byte[] bytes = progress.toString().getBytes();
-			fos.write(bytes, 0, bytes.length);
+		try (FileOutputStream fos = new FileOutputStream(filename);
+				ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(progress);
 		} catch (IOException exception) {
 			System.out.println(exception.getMessage());
 		}
